@@ -81,3 +81,5 @@ buildNumber.properties
 .vscode
 
 Parsed-docs/
+
+index/

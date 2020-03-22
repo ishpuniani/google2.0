@@ -14,9 +14,6 @@ public class AnalyzerFactory {
 		switch(type) {
 			case Simple:
 				return new SimpleAnalyzer();
-			
-			case Standard:
-				return new StandardAnalyzer();
 				
 			case English:
 				return new EnglishAnalyzer();
@@ -24,8 +21,9 @@ public class AnalyzerFactory {
 			case Custom:
 				return new MyAnalyzer();
 				
+			case Standard:
 			default:
-				return null;
+				return new StandardAnalyzer();
 		}		
 	}
 }

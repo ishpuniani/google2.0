@@ -1,6 +1,7 @@
 package com.mycompany.app.factory;
 
 import org.apache.lucene.search.similarities.BM25Similarity;
+import org.apache.lucene.search.similarities.ClassicSimilarity;
 import org.apache.lucene.search.similarities.Similarity;
 
 public class SimilarityFactory {
@@ -12,7 +13,7 @@ public class SimilarityFactory {
 				return new BM25Similarity();
 			
 			default:
-				return null;
+				return new ClassicSimilarity();
 		}
 		
 	}

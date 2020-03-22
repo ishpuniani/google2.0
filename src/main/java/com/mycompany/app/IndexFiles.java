@@ -42,6 +42,10 @@ import org.apache.lucene.index.Term;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
+import com.mycompany.app.factory.AnalyzerType;
+
+import com.mycompany.app.factory.AnalyzerFactory;
+
 /**
  * Index all text files under a directory.
  * <p>
@@ -90,7 +94,7 @@ public class IndexFiles {
             System.out.println("Indexing to directory '" + indexPath + "'...");
 
             Directory dir = FSDirectory.open(Paths.get(indexPath));
-            Analyzer analyzer = new StandardAnalyzer();
+            Analyzer analyzer = AnalyzerFactory.getAnalyzer(AnalyzerType.Standard);
             IndexWriterConfig iwc = new IndexWriterConfig(analyzer);
 
             if (create) {

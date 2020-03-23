@@ -2,32 +2,32 @@ package com.mycompany.app.Search;
 
 public class Result {
 
-    private int qid;
-    private String did;
+    private int queryId;
+    private String documentId;
     private float score;
 
     public Result() {}
 
-    public Result(int qid, String did, float score) {
-        this.qid = qid;
-        this.did = did;
+    public Result(int queryId, String documentId, float score) {
+        this.queryId = queryId;
+        this.documentId = documentId;
         this.score = score;
     }
 
-    public int getQid() {
-        return qid;
+    public int getQueryId() {
+        return queryId;
     }
 
-    public void setQid(int qid) {
-        this.qid = qid;
+    public void setQueryId(int queryId) {
+        this.queryId = queryId;
     }
 
-    public String getDid() {
-        return did;
+    public String getDocumentId() {
+        return documentId;
     }
 
-    public void setDid(String did) {
-        this.did = did;
+    public void setDocumentId(String documentId) {
+        this.documentId = documentId;
     }
 
     public float getScore() {
@@ -40,6 +40,6 @@ public class Result {
 
     @Override
     public String toString() {
-        return String.format("%d\tITER\t%s\tRANK\t%f\tRUN\n", qid, did, score);
+        return String.format("%d\tITER\t%s\tRANK\t%f\tRUN\n", queryId, documentId, score);
     }
 }

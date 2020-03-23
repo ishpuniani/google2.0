@@ -6,8 +6,6 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
 import org.apache.lucene.queryparser.classic.ParseException;
-import org.apache.lucene.search.BooleanClause;
-import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
@@ -19,7 +17,6 @@ import org.jsoup.select.Elements;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,8 +31,6 @@ public class Searcher {
     private Analyzer analyzer;
     private Similarity similarity;
     private IndexSearcher indexSearcher;
-
-    public Searcher() {}
 
     public Searcher(Analyzer analyzer, Similarity similarity) {
         this.analyzer = analyzer;
@@ -86,9 +81,9 @@ public class Searcher {
                 float score = hit.score;
 
                 Result res = new Result();
-                res.setDid(docId);
+                res.setDocumentId(docId);
                 res.setScore(score);
-                res.setQid(Integer.parseInt(topic.getNum()));
+                res.setQueryId(Integer.parseInt(topic.getNum()));
                 results.add(res);
             }
         } catch (IOException ex) {

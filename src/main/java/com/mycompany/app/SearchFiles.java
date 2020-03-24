@@ -26,7 +26,6 @@ import java.nio.file.Paths;
 import java.util.Date;
 
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
@@ -36,6 +35,8 @@ import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.FSDirectory;
+import com.mycompany.app.factory.AnalyzerFactory;
+import com.mycompany.app.factory.AnalyzerType;
 
 /** Simple command-line based search demo. */
 public class SearchFiles {
@@ -89,7 +90,7 @@ public class SearchFiles {
 
         IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get(index)));
         IndexSearcher searcher = new IndexSearcher(reader);
-        Analyzer analyzer = new StandardAnalyzer();
+        Analyzer analyzer = AnalyzerFactory.getAnalyzer(AnalyzerType.Custom);
 
         BufferedReader in = null;
         if (queries != null) {

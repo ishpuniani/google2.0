@@ -17,10 +17,16 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mycompany.app.Constants.Constants;
+
 public class FBISLoader {
 
 	private static BufferedReader br;
 	private static List<Document> fbisDocList = new ArrayList<>();
+
+	public static void main(String[] args) throws IOException {
+		loadFBISDocs(Constants.DATASET_FILE_PATH + "fbis");
+	}
 
 	public static List<Document> loadFBISDocs(String fbisDirectory) throws IOException {
 		Directory dir = FSDirectory.open(Paths.get(fbisDirectory));
@@ -40,16 +46,20 @@ public class FBISLoader {
 
 		for (Element doc : list) {
 
-			//get data from tags and start creating objects
+			// get data from tags and start creating objects
 			FBISObject fbisObject = new FBISObject();
 			if (doc.getElementsByTag(FBISTags.DOCNO.getTag()) != null)
-				fbisObject.setDocNum(trimData(doc, FBISTags.DOCNO));
+				fbisObject.setDocNo(trimData(doc, FBISTags.DOCNO));
 			if (doc.getElementsByTag(FBISTags.HT.getTag()) != null)
-				fbisObject.setDocNum(trimData(doc, FBISTags.HT));
+				fbisObject.setHt(trimData(doc, FBISTags.HT));
+			if (doc.getElementsByTag(FBISTags.HEADER.getTag()) != null)
+				fbisObject.setHeader(trimData(doc, FBISTags.HEADER));
 			if (doc.getElementsByTag(FBISTags.H2.getTag()) != null)
-				fbisObject.setDocNum(trimData(doc, FBISTags.H2));
+				fbisObject.setH2(trimData(doc, FBISTags.H2));
 			if (doc.getElementsByTag(FBISTags.DATE1.getTag()) != null)
-				fbisObject.setDocNum(trimData(doc, FBISTags.DATE1));
+				fbisObject.setDate(trimData(doc, FBISTags.DATE1));
+			if (doc.getElementsByTag(FBISTags.H3.getTag()) != null)
+				fbisObject.setH3(trimData(doc, FBISTags.H3));
 			if (doc.getElementsByTag(FBISTags.TI.name()) != null)
 				fbisObject.setTi(trimData(doc, FBISTags.TI));
 			if (doc.getElementsByTag(FBISTags.TEXT.name()) != null)
@@ -62,10 +72,10 @@ public class FBISLoader {
 	private static String trimData(Element doc, FBISTags tag) {
 
 		Elements element = doc.getElementsByTag(tag.name());
-		Elements tmpElement = element.clone();
+		// Elements tmpElement = element.clone();
 		// remove any nested
-		removeNestedTags(tmpElement, tag);
-		String data = tmpElement.toString();
+		removeNestedTags(element, tag);
+		String data = element.toString();
 
 		// remove any instance of "\n"
 		if (data.contains("\n"))
@@ -91,7 +101,7 @@ public class FBISLoader {
 
 	private static Document createFBISDocument(FBISObject fbisObject) {
 		Document document = new Document();
-		document.add(new StringField("docno", fbisObject.getDocNum(), Field.Store.YES));
+		document.add(new StringField("docno", fbisObject.getDocNo(), Field.Store.YES));
 		document.add(new StringField("ht", fbisObject.getHt(), Field.Store.YES));
 		document.add(new StringField("h2", fbisObject.getH2(), Field.Store.YES));
 		document.add(new StringField("date", fbisObject.getDate(), Field.Store.YES));

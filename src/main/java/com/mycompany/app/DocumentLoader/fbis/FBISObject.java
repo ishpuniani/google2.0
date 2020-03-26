@@ -2,7 +2,7 @@ package com.mycompany.app.DocumentLoader.fbis;
 
 public class FBISObject {
 
-	private String docNum;
+	private String docNo;
 	private String ht;
 	private String header;
 	private String h2;
@@ -15,13 +15,13 @@ public class FBISObject {
 		super();
 	}
 
-	public String getDocNum() {
-		return docNum;
-	}
+	String getDocNo() {
+        return docNo;
+    }
 
-	public void setDocNum(String docNum) {
-		this.docNum = docNum;
-	}
+    void setDocNo(String docNo) {
+        this.docNo = docNo;
+    }
 
 	public String getHt() {
 		return ht;
@@ -40,7 +40,7 @@ public class FBISObject {
 	}
 
 	public String getH2() {
-		return this.h2;
+		return h2;
 	}
 
 	public void setH2(String h2) {
@@ -48,7 +48,7 @@ public class FBISObject {
 	}
 
 	public String getH3() {
-		return this.h2;
+		return h3;
 	}
 
 	public void setH3(String h3) {
@@ -81,7 +81,7 @@ public class FBISObject {
 
 	@Override
 	public String toString() {
-		return "FBISObject [docNum=" + docNum + ", ht=" + ht + ", header=" + header + ", date=" + date + ", ti=" + ti
+		return "FBISObject [docNo=" + docNo + ", ht=" + ht + ", header=" + header + ", date=" + date + ", ti=" + ti
 				+ ", text=" + text + "]";
 	}
 }

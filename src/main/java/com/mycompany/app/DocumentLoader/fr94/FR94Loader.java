@@ -1,3 +1,5 @@
+//Reference:- https://github.com/kerinb/IR_proj2_group14/tree/master/src/com/kerinb/IR_proj2_group14
+
 package com.mycompany.app.DocumentLoader.fr94;
 
 import org.apache.lucene.document.Document;
@@ -14,7 +16,7 @@ import java.util.List;
 public class FR94Loader {
 	private static List<Document> fedRegisterDocList = new ArrayList<>();
 
-    public static List<Document> loadFedRegisterDocs(String pathToFedRegister) throws IOException {
+    public List<Document> loadFR94Docs(String pathToFedRegister) throws IOException {
         File[] directories = new File(pathToFedRegister).listFiles(File::isDirectory);
         String docno,text;
         for (File directory : directories) {

@@ -1,3 +1,5 @@
+//Reference:- https://github.com/kerinb/IR_proj2_group14/tree/master/src/com/kerinb/IR_proj2_group14
+
 package com.mycompany.app.DocumentLoader.ft;
 
 import org.apache.lucene.document.Document;
@@ -21,7 +23,7 @@ public class FTLoader {
 	private static BufferedReader br;
 	private static List<Document> ftDocList = new ArrayList<>();
 
-	public static List<Document> loadFTDocs(String ftDirectory) throws IOException {
+	public List<Document> loadFTDocs(String ftDirectory) throws IOException {
 		Directory dir = FSDirectory.open(Paths.get(ftDirectory));
 		for (String directory : dir.listAll()) {
 			Directory insideDir = FSDirectory.open(Paths.get(ftDirectory+"/"+directory));

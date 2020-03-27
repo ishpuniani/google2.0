@@ -1,3 +1,6 @@
+//Reference:- https://github.com/kerinb/IR_proj2_group14/tree/master/src/com/kerinb/IR_proj2_group14
+
+
 package com.mycompany.app.DocumentLoader.fbis;
 
 import org.apache.lucene.document.Document;
@@ -21,7 +24,7 @@ public class FBISLoader {
 	private static BufferedReader br;
 	private static List<Document> fbisDocList = new ArrayList<>();
 
-	public static List<Document> loadFBISDocs(String fbisDirectory) throws IOException {
+	public List<Document> loadFBISDocs(String fbisDirectory) throws IOException {
 		Directory dir = FSDirectory.open(Paths.get(fbisDirectory));
 		for (String fbisFile : dir.listAll()) {
 			br = new BufferedReader(new FileReader(fbisDirectory + "/" + fbisFile));

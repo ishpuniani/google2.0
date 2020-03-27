@@ -1,3 +1,5 @@
+//Reference:- https://github.com/kerinb/IR_proj2_group14/tree/master/src/com/kerinb/IR_proj2_group14
+
 package com.mycompany.app.DocumentLoader.laTimes;
 
 import java.io.File;
@@ -14,7 +16,7 @@ import org.jsoup.select.Elements;
 
 public class LATimesLoader {
 
-	public static List<Document> loadLaTimesDocs(String pathToLADocs) throws IOException {
+	public List<Document> loadLaTimesDocs(String pathToLADocs) throws IOException {
 
 		List<Document> laDocs = new ArrayList<>();
 

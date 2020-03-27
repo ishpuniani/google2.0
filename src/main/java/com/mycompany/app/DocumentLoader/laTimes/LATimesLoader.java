@@ -4,9 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.mycompany.app.Constants.Constants;
-
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StringField;
@@ -16,10 +13,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 public class LATimesLoader {
-
-	public static void main(String[] args) throws IOException {
-		loadLaTimesDocs(Constants.DATASET_FILE_PATH + "latimes");
-	}
 
 	public static List<Document> loadLaTimesDocs(String pathToLADocs) throws IOException {
 

@@ -9,27 +9,19 @@ import org.apache.lucene.store.FSDirectory;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mycompany.app.Constants.Constants;
-
 public class FTLoader {
 
 	private static BufferedReader br;
 	private static List<Document> ftDocList = new ArrayList<>();
 
-	public static void main(String[] args) throws IOException {
-		loadFTDocs(Constants.DATASET_FILE_PATH + "ft");
-	}
-
-	private static List<Document> loadFTDocs(String ftDirectory) throws IOException {
+	public static List<Document> loadFTDocs(String ftDirectory) throws IOException {
 		Directory dir = FSDirectory.open(Paths.get(ftDirectory));
 		for (String directory : dir.listAll()) {
 			Directory insideDir = FSDirectory.open(Paths.get(ftDirectory+"/"+directory));

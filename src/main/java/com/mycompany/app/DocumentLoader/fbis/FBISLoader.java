@@ -9,7 +9,6 @@ import org.apache.lucene.store.FSDirectory;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -17,16 +16,10 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mycompany.app.Constants.Constants;
-
 public class FBISLoader {
 
 	private static BufferedReader br;
 	private static List<Document> fbisDocList = new ArrayList<>();
-
-	public static void main(String[] args) throws IOException {
-		loadFBISDocs(Constants.DATASET_FILE_PATH + "fbis");
-	}
 
 	public static List<Document> loadFBISDocs(String fbisDirectory) throws IOException {
 		Directory dir = FSDirectory.open(Paths.get(fbisDirectory));

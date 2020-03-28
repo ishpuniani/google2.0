@@ -5,7 +5,6 @@ package com.mycompany.app.DocumentLoader.laTimes;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StringField;
@@ -16,9 +15,9 @@ import org.jsoup.select.Elements;
 
 public class LATimesLoader {
 
-	public List<Document> loadLaTimesDocs(String pathToLADocs) throws IOException {
-
-		List<Document> laDocs = new ArrayList<>();
+	public ArrayList<Document> loadLaTimesDocs(String pathToLADocs) throws IOException {
+		System.out.println("Loading LATIMES ...");
+		ArrayList<Document> laDocs = new ArrayList<>();
 
 		File folder = new File(pathToLADocs);
 		File[] allFiles = folder.listFiles();
@@ -37,6 +36,7 @@ public class LATimesLoader {
 				laDocs.add(createDocument(docNo, headline, text));
 			}
 		}
+		System.out.println("Loading LATIMES Done!");
 		return laDocs;
 	}
 

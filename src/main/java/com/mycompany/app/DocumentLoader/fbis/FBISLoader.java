@@ -1,6 +1,5 @@
 //Reference:- https://github.com/kerinb/IR_proj2_group14/tree/master/src/com/kerinb/IR_proj2_group14
 
-
 package com.mycompany.app.DocumentLoader.fbis;
 
 import org.apache.lucene.document.Document;
@@ -22,14 +21,18 @@ import java.util.List;
 public class FBISLoader {
 
 	private static BufferedReader br;
-	private static List<Document> fbisDocList = new ArrayList<>();
+	private static ArrayList<Document> fbisDocList = new ArrayList<>();
 
-	public List<Document> loadFBISDocs(String fbisDirectory) throws IOException {
+	public ArrayList<Document> loadFBISDocs(String fbisDirectory) throws IOException {
+
+		System.out.println("Loading FBIS ...");
+
 		Directory dir = FSDirectory.open(Paths.get(fbisDirectory));
 		for (String fbisFile : dir.listAll()) {
 			br = new BufferedReader(new FileReader(fbisDirectory + "/" + fbisFile));
 			process();
 		}
+		System.out.println("Loading FBIS Done!");
 		return fbisDocList;
 	}
 

@@ -21,9 +21,10 @@ import java.util.List;
 public class FTLoader {
 
 	private static BufferedReader br;
-	private static List<Document> ftDocList = new ArrayList<>();
+	private static ArrayList<Document> ftDocList = new ArrayList<>();
 
-	public List<Document> loadFTDocs(String ftDirectory) throws IOException {
+	public ArrayList<Document> loadFTDocs(String ftDirectory) throws IOException {
+		System.out.println("Loading FT ...");
 		Directory dir = FSDirectory.open(Paths.get(ftDirectory));
 		for (String directory : dir.listAll()) {
 			Directory insideDir = FSDirectory.open(Paths.get(ftDirectory+"/"+directory));
@@ -32,6 +33,7 @@ public class FTLoader {
 				process();
 			}
 		}
+		System.out.println("Loading FT Done!");
 		return ftDocList;
 	}
 

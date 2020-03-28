@@ -24,13 +24,13 @@ public class Indexer {
         this.indexPath = indexPath;
     }
 
-    public void IndexDocs(ArrayList<Document> docs) {
+    public void IndexDocs(ArrayList<Document> docs, AnalyzerType analyzerType) {
         Date start = new Date();
         try {
             System.out.println("Indexing to directory '" + indexPath + "'...");
 
             Directory dir = FSDirectory.open(Paths.get(indexPath));
-            Analyzer analyzer = AnalyzerFactory.getAnalyzer(AnalyzerType.Standard);
+            Analyzer analyzer = AnalyzerFactory.getAnalyzer(analyzerType);
             IndexWriterConfig iwc = new IndexWriterConfig(analyzer);
 
             IndexWriter writer = new IndexWriter(dir, iwc);

@@ -8,7 +8,7 @@ import com.mycompany.app.Index.Indexer;
 
 import org.apache.lucene.document.Document;
 
-public class Main {
+public class IndexDocuments {
 
     public static void main(String[] args) {
         // load all the docs
@@ -19,6 +19,5 @@ public class Main {
         Indexer indexer = new Indexer(Constants.INDEXED_DOCS_FILE_PATH);
         indexer.IndexDocs(allDocs);
         
-        // searching
     }
 }

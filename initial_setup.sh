@@ -10,5 +10,5 @@ mvn package
 # Index documents
 # java -cp target/app-1.0-SNAPSHOT.jar com.mycompany.app.IndexFiles -docs Parsed-docs/
 
-java -cp target/app-1.0-SNAPSHOT.jar com.mycompany.app.Main
+java -cp target/app-1.0-SNAPSHOT.jar com.mycompany.app.IndexDocuments
 

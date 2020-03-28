@@ -11,12 +11,12 @@ import org.jsoup.select.Elements;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class FR94Loader {
-	private static List<Document> fedRegisterDocList = new ArrayList<>();
+	private static ArrayList<Document> fedRegisterDocList = new ArrayList<>();
 
-    public List<Document> loadFR94Docs(String pathToFedRegister) throws IOException {
+    public ArrayList<Document> loadFR94Docs(String pathToFedRegister) throws IOException {
+        System.out.println("Loading FR94 ...");
         File[] directories = new File(pathToFedRegister).listFiles(File::isDirectory);
         String docno,text;
         for (File directory : directories) {
@@ -44,6 +44,7 @@ public class FR94Loader {
                 }
             }
         }
+        System.out.println("Loading FR94 Done!");
         return fedRegisterDocList;
     }
 

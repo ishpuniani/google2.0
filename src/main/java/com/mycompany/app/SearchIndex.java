@@ -23,7 +23,7 @@ public class SearchIndex {
     private static final Logger logger = Logger.getLogger(SearchIndex.class);
 
     public static void main(String[] args) throws Exception {
-        String indexPath = "index";
+        String indexPath = Constants.INDEXED_DOCS_FILE_PATH;
         String resultsPath = "results.txt";
         Analyzer analyzer = AnalyzerFactory.getAnalyzer(AnalyzerType.Standard);
         Similarity similarity = SimilarityFactory.getSimilarity(SimilarityType.BM25);

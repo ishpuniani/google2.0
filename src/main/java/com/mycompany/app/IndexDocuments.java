@@ -66,7 +66,8 @@ public class IndexDocuments {
         try {
             FBISLoader fbisLoader = new FBISLoader();
             docs = fbisLoader.loadFBISDocs(Constants.DATASET_FILE_PATH + "fbis");
-            indexer = new Indexer(Constants.INDEXED_DOCS_FILE_PATH + "fbis");
+//            indexer = new Indexer(Constants.INDEXED_DOCS_FILE_PATH + "fbis");
+            indexer = new Indexer(Constants.INDEXED_DOCS_FILE_PATH);
             indexer.IndexDocs(docs, analyzerType);
         } catch (IOException ex) {
             System.out.println("ERROR: IOException occurred while loading FBIS documents");
@@ -75,7 +76,8 @@ public class IndexDocuments {
         try {
             FR94Loader fr94Loader = new FR94Loader();
             docs = fr94Loader.loadFR94Docs(Constants.DATASET_FILE_PATH + "fr94");
-            indexer = new Indexer(Constants.INDEXED_DOCS_FILE_PATH + "fr94");
+//            indexer = new Indexer(Constants.INDEXED_DOCS_FILE_PATH + "fr94");
+            indexer = new Indexer(Constants.INDEXED_DOCS_FILE_PATH);
             indexer.IndexDocs(docs, analyzerType);
         } catch (IOException ex) {
             System.out.println("ERROR: IOException occurred while loading FR94 documents");
@@ -84,7 +86,8 @@ public class IndexDocuments {
         try {
             FTLoader ftLoader = new FTLoader();
             docs = ftLoader.loadFTDocs(Constants.DATASET_FILE_PATH + "ft");
-            indexer = new Indexer(Constants.INDEXED_DOCS_FILE_PATH + "ft");
+//            indexer = new Indexer(Constants.INDEXED_DOCS_FILE_PATH + "ft");
+            indexer = new Indexer(Constants.INDEXED_DOCS_FILE_PATH);
             indexer.IndexDocs(docs, analyzerType);
         } catch (IOException ex) {
             System.out.println("ERROR: IOException occurred while loading FT documents");
@@ -93,7 +96,8 @@ public class IndexDocuments {
         try {
             LATimesLoader laTimesLoader = new LATimesLoader();
             docs = laTimesLoader.loadLaTimesDocs(Constants.DATASET_FILE_PATH + "latimes");
-            indexer = new Indexer(Constants.INDEXED_DOCS_FILE_PATH + "latimes");
+//            indexer = new Indexer(Constants.INDEXED_DOCS_FILE_PATH + "latimes");
+            indexer = new Indexer(Constants.INDEXED_DOCS_FILE_PATH);
             indexer.IndexDocs(docs, analyzerType);
         } catch (IOException ex) {
             System.out.println("ERROR: IOException occurred while loading LATimes documents");

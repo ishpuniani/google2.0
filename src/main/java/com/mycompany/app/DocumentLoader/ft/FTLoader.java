@@ -106,7 +106,7 @@ public class FTLoader {
 		document.add(new StringField("docno", ftObject.getDocNo(), Field.Store.YES));
 		document.add(new StringField("profile", ftObject.getProfile(), Field.Store.YES));
 		document.add(new StringField("date", ftObject.getDate(), Field.Store.YES));
-		document.add(new StringField("headline", ftObject.getHeadline(), Field.Store.YES));
+		document.add(new TextField("headline", ftObject.getHeadline(), Field.Store.YES));
 		document.add(new TextField("pub", ftObject.getPub(), Field.Store.YES));
 		document.add(new TextField("page", ftObject.getPage(), Field.Store.YES));
 		document.add(new TextField("byline", ftObject.getByLine(), Field.Store.YES));

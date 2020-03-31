@@ -75,9 +75,7 @@ public class Searcher {
 
             for (ScoreDoc hit: hits) {
                 Document doc = indexSearcher.doc(hit.doc);
-                //TODO: make sure the key in the index is also docId
-//                String docId = doc.get("docId");
-                String docId = doc.get("path");
+                String docId = doc.get("docno");
                 float score = hit.score;
 
                 Result res = new Result();
@@ -103,9 +101,7 @@ public class Searcher {
         boosts.put("title", 1f);
         boosts.put("content",10f);
 
-//        MultiFieldQueryParser multiFieldQP = new MultiFieldQueryParser(new String[] {"title", "content" }, analyzer, boosts);
-        //TODO: integrate with indexing process.
-		MultiFieldQueryParser multiFieldQP = new MultiFieldQueryParser(new String[] { "contents" }, analyzer);
+		MultiFieldQueryParser multiFieldQP = new MultiFieldQueryParser(new String[] {"headline","text" }, analyzer);
         Query qT;
         Query qD;
 

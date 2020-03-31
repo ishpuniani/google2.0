@@ -8,10 +8,13 @@ import java.util.Date;
 import com.mycompany.app.factory.AnalyzerFactory;
 import com.mycompany.app.factory.AnalyzerType;
 
+import com.mycompany.app.factory.SimilarityFactory;
+import com.mycompany.app.factory.SimilarityType;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.search.similarities.Similarity;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
@@ -31,7 +34,9 @@ public class Indexer {
 
             Directory dir = FSDirectory.open(Paths.get(indexPath));
             Analyzer analyzer = AnalyzerFactory.getAnalyzer(analyzerType);
+            Similarity similarity = SimilarityFactory.getSimilarity(SimilarityType.BM25);
             IndexWriterConfig iwc = new IndexWriterConfig(analyzer);
+            iwc.setSimilarity(similarity);
 
             IndexWriter writer = new IndexWriter(dir, iwc);
 

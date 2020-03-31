@@ -105,7 +105,7 @@ public class FBISLoader {
 		document.add(new StringField("h2", fbisObject.getH2(), Field.Store.YES));
 		document.add(new StringField("date", fbisObject.getDate(), Field.Store.YES));
 		document.add(new StringField("h3", fbisObject.getH3(), Field.Store.YES));
-		document.add(new TextField("ti", fbisObject.getTi(), Field.Store.YES));
+		document.add(new TextField("headline", fbisObject.getTi(), Field.Store.YES));
 		document.add(new TextField("text", fbisObject.getText(), Field.Store.YES));
 		return document;
 	}

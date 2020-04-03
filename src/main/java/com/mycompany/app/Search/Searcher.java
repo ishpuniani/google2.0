@@ -6,6 +6,10 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
 import org.apache.lucene.queryparser.classic.ParseException;
+import org.apache.lucene.queryparser.classic.QueryParser;
+import org.apache.lucene.search.BooleanClause;
+import org.apache.lucene.search.BooleanQuery;
+import org.apache.lucene.search.BoostQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
@@ -18,6 +22,7 @@ import org.jsoup.select.Elements;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.text.BreakIterator;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -96,37 +101,71 @@ public class Searcher {
      * @param topic
      * @return
      */
+    //reference: https://github.com/kerinb/IR_proj2_group14
     private Query generateQueryFromTopic(Topic topic) {
         HashMap<String, Float> boosts = new HashMap<String, Float>();
-        boosts.put("title", 1f);
-        boosts.put("content",10f);
+        boosts.put("title", 0.1f);
+        boosts.put("content",0.9f);
 
-		MultiFieldQueryParser multiFieldQP = new MultiFieldQueryParser(new String[] {"headline","text" }, analyzer);
-        Query qT;
-        Query qD;
-
+		MultiFieldQueryParser multiFieldQP = new MultiFieldQueryParser(new String[] {"headline","text" }, analyzer, boosts);
+        
         Query query = null;
         try {
-            //TODO: Experiment with combinations of other fields.
-            qT = multiFieldQP.parse(topic.getTitle());
-            qD = multiFieldQP.parse(topic.getDesc());
+        	List<String> splitNarrative = splitNarrIntoRelNotRel(topic.getNarrative());
+            String relevantNarr = splitNarrative.get(0).trim();
 
-//            String q = "";
-//            q = expandQuery(topic.getDesc());
-//            q += topic.getTitle();
-//            query = multiFieldQP.parse(q);
+    		BooleanQuery.Builder booleanQuery = new BooleanQuery.Builder();
 
-//            org.apache.lucene.search.BooleanQuery.Builder bq = new BooleanQuery.Builder();
-//            bq.add(qT, BooleanClause.Occur.SHOULD);
-//            bq.add(qD, BooleanClause.Occur.SHOULD);
+    		if (topic.getTitle().length() > 0) {
 
-//            query = bq.build();
-            query = qT;
+    			Query titleQuery = multiFieldQP.parse(QueryParser.escape(topic.getTitle()));
+    			Query descriptionQuery = multiFieldQP.parse(QueryParser.escape(topic.getDesc()));
+    			Query narrativeQuery = null;
+    			if(relevantNarr.length()>0) {
+    				narrativeQuery = multiFieldQP.parse(QueryParser.escape(relevantNarr));
+    			}
+
+    			booleanQuery.add(new BoostQuery(titleQuery, (float) 4), BooleanClause.Occur.SHOULD);
+    			booleanQuery.add(new BoostQuery(descriptionQuery, (float) 1.7), BooleanClause.Occur.SHOULD);
+
+    			if (narrativeQuery != null) {
+    				booleanQuery.add(new BoostQuery(narrativeQuery, (float) 1.2), BooleanClause.Occur.SHOULD);
+    			}
+    			
+    			query = booleanQuery.build();
+    		}
+            
         } catch (ParseException e) {
             logger.error("Error parsing query.");
         }
 
         return query;
+    }
+    
+    //https://github.com/kerinb/IR_proj2_group14    
+    private static List<String> splitNarrIntoRelNotRel(String narrative) {
+        StringBuilder relevantNarr = new StringBuilder();
+        StringBuilder irrelevantNarr = new StringBuilder();
+        List<String> splitNarrative = new ArrayList<>();
+
+        BreakIterator bi = BreakIterator.getSentenceInstance();
+        bi.setText(narrative);
+        int index = 0;
+        while (bi.next() != BreakIterator.DONE) {
+            String sentence = narrative.substring(index, bi.current());
+
+            if (!sentence.contains("not relevant") && !sentence.contains("irrelevant")) {
+                relevantNarr.append(sentence.replaceAll(
+                        "a relevant document identifies|a relevant document could|a relevant document may|a relevant document must|a relevant document will|a document will|to be relevant|relevant documents|a document must|relevant|will contain|will discuss|will provide|must cite",
+                        ""));
+            } else {
+                irrelevantNarr.append(sentence.replaceAll("are also not relevant|are not relevant|are irrelevant|is not relevant|not|NOT", ""));
+            }
+            index = bi.current();
+        }
+        splitNarrative.add(relevantNarr.toString());
+        splitNarrative.add(irrelevantNarr.toString());
+        return splitNarrative;
     }
 
     public List<Result> searchAll(List<Topic> topics) {

@@ -17,39 +17,39 @@ import org.apache.lucene.analysis.standard.ClassicFilter;
 import org.apache.lucene.analysis.standard.StandardTokenizer;
 
 public class MyAnalyzer extends Analyzer {
-	
+
 	private final Path currentRelativePath = Paths.get("").toAbsolutePath();
-  
+
 	@Override
 	protected TokenStreamComponents createComponents(String s) {
-		
+
 		//To break sentences into tokens
 		Tokenizer tokenizer = new StandardTokenizer();
-		
+
 		//Removes punctuation marks such as an apostrophe
 		TokenStream tokenStream = new ClassicFilter(tokenizer);
-		
+
 		//Normalizes token text to lower case.
 		tokenStream = new LowerCaseFilter(tokenStream);
-		
+
 		//Trims leading and trailing whitespace from Tokens in the stream
 		tokenStream = new TrimFilter(tokenStream);
-		
+
 		//Remove stop words
 		tokenStream = new StopFilter(tokenStream, StopFilter.makeStopSet(createStopWordList(),true));
-		
-		//Apply Stemming 
+
+		//Apply Stemming
 		tokenStream = new PorterStemFilter(tokenStream);
-		
+
 		return new TokenStreamComponents(tokenizer, tokenStream);
 	}
-	
+
 	//https://github.com/kerinb/IR_proj2_group14
 	private List<String> createStopWordList()
 	{
 		ArrayList<String> stopWordList = new ArrayList<>();
 		try {
-			BufferedReader stopwords = new BufferedReader(new FileReader(currentRelativePath + "/DataSet/stopwords.txt"));
+			BufferedReader stopwords = new BufferedReader(new FileReader(currentRelativePath + "/Dataset/stopwords.txt"));
 			String word = stopwords.readLine();
 			while(word != null) {
 				stopWordList.add(word);

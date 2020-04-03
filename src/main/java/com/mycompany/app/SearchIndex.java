@@ -34,7 +34,7 @@ public class SearchIndex {
             System.out.print("\033[H\033[2J");
             System.out.flush();
 
-            System.out.println("Please choose an Analyser");
+            System.out.println("Please choose an Analyser by selecting a number");
             System.out.println("1. Simple");
             System.out.println("2. English");
             System.out.println("3. Custom");
@@ -63,7 +63,7 @@ public class SearchIndex {
                     break;
             }
 
-            System.out.println("Please choose a Similarity");
+            System.out.println("Please choose a Similarity by selecting a number");
             System.out.println("1. BM25Similarity");
             System.out.println("2. BooleanSimilarity");
             System.out.println("3. MultiSimilarity");

@@ -4,6 +4,7 @@ public enum SimilarityType {
 	
 	BM25, 
 	Boolean, 
+	Classic,
 	Multi, 
 	PerField, 
 	Base, 

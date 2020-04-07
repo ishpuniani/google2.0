@@ -9,10 +9,13 @@ import com.mycompany.app.factory.AnalyzerFactory;
 import com.mycompany.app.factory.AnalyzerType;
 import com.mycompany.app.factory.SimilarityFactory;
 import com.mycompany.app.factory.SimilarityType;
+
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.search.similarities.Similarity;
 
+import java.io.File;
 import java.util.List;
 
 /** Simple command-line based search demo. */
@@ -20,100 +23,112 @@ public class SearchIndex {
 
     private static final Logger logger = Logger.getLogger(SearchIndex.class);
 
-    public static void main(String[] args) throws Exception {
+    public void Search(Pair<AnalyzerType, SimilarityType> pair) {
         String indexPath = Constants.INDEXED_DOCS_FILE_PATH;
-        String resultsPath = "results.txt";
+        String resultFolder = "Results";
+        String resultFile = pair.getLeft() + "_" + pair.getRight() + ".txt";
 
-        boolean validAnalyzer = false;
-        boolean validSimilarity = false;
-        AnalyzerType analyzerType = null;
-        SimilarityType similarityType = null;
+        // boolean validAnalyzer = false;
+        // boolean validSimilarity = false;
+        // AnalyzerType analyzerType = null;
+        // SimilarityType similarityType = null;
 
-        while (!validAnalyzer && !validSimilarity) {
-            // clear the screen
-            System.out.print("\033[H\033[2J");
-            System.out.flush();
+        // while (!validAnalyzer && !validSimilarity) {
+        // // clear the screen
+        // System.out.print("\033[H\033[2J");
+        // System.out.flush();
 
-            System.out.println("Please choose an Analyser by selecting a number");
-            System.out.println("1. Simple");
-            System.out.println("2. English");
-            System.out.println("3. Custom");
-            System.out.println("4. Standard");
+        // System.out.println("Please choose an Analyser by selecting a number");
+        // System.out.println("1. Simple");
+        // System.out.println("2. English");
+        // System.out.println("3. Custom");
+        // System.out.println("4. Standard");
 
-            String input = System.console().readLine();
+        // String input = System.console().readLine();
 
-            switch (input) {
-                case "1":
-                    analyzerType = AnalyzerType.Simple;
-                    validAnalyzer = true;
-                    break;
-                case "2":
-                    analyzerType = AnalyzerType.English;
-                    validAnalyzer = true;
-                    break;
-                case "3":
-                    analyzerType = AnalyzerType.Custom;
-                    validAnalyzer = true;
-                    break;
-                case "4":
-                    analyzerType = AnalyzerType.Standard;
-                    validAnalyzer = true;
-                    break;
-                default:
-                    break;
-            }
+        // switch (input) {
+        // case "1":
+        // analyzerType = AnalyzerType.Simple;
+        // validAnalyzer = true;
+        // break;
+        // case "2":
+        // analyzerType = AnalyzerType.English;
+        // validAnalyzer = true;
+        // break;
+        // case "3":
+        // analyzerType = AnalyzerType.Custom;
+        // validAnalyzer = true;
+        // break;
+        // case "4":
+        // analyzerType = AnalyzerType.Standard;
+        // validAnalyzer = true;
+        // break;
+        // default:
+        // break;
+        // }
 
-            System.out.println("Please choose a Similarity by selecting a number");
-            System.out.println("1. BM25Similarity");
-            System.out.println("2. BooleanSimilarity");
-            System.out.println("3. MultiSimilarity");
-            System.out.println("4. PerFieldSimilarityWrapper");
-            System.out.println("5. SimilarityBase");
-            System.out.println("6. TFIDFSimilarity");
+        // System.out.println("Please choose a Similarity by selecting a number");
+        // System.out.println("1. BM25Similarity");
+        // System.out.println("2. BooleanSimilarity");
+        // System.out.println("3. MultiSimilarity");
+        // System.out.println("4. PerFieldSimilarityWrapper");
+        // System.out.println("5. SimilarityBase");
+        // System.out.println("6. TFIDFSimilarity");
 
-            input = System.console().readLine();
+        // input = System.console().readLine();
 
-            switch (input) {
-                case "1":
-                    similarityType = SimilarityType.BM25;
-                    validSimilarity = true;
-                    break;
-                case "2":
-                    similarityType = SimilarityType.Boolean;
-                    validSimilarity = true;
-                    break;
-                case "3":
-                    similarityType = SimilarityType.Multi;
-                    validSimilarity = true;
-                    break;
-                case "4":
-                    similarityType = SimilarityType.PerField;
-                    validSimilarity = true;
-                    break;
-                case "5":
-                    similarityType = SimilarityType.Base;
-                    validSimilarity = true;
-                    break;
-                case "6":
-                    similarityType = SimilarityType.TFIDF;
-                    validSimilarity = true;
-                    break;
-                default:
-                    break;
-            }
-        }
+        // switch (input) {
+        // case "1":
+        // similarityType = SimilarityType.BM25;
+        // validSimilarity = true;
+        // break;
+        // case "2":
+        // similarityType = SimilarityType.Boolean;
+        // validSimilarity = true;
+        // break;
+        // case "3":
+        // similarityType = SimilarityType.Multi;
+        // validSimilarity = true;
+        // break;
+        // case "4":
+        // similarityType = SimilarityType.PerField;
+        // validSimilarity = true;
+        // break;
+        // case "5":
+        // similarityType = SimilarityType.Base;
+        // validSimilarity = true;
+        // break;
+        // case "6":
+        // similarityType = SimilarityType.TFIDF;
+        // validSimilarity = true;
+        // break;
+        // default:
+        // break;
+        // }
+        // }
 
-        Analyzer analyzer = AnalyzerFactory.getAnalyzer(analyzerType);
-        Similarity similarity = SimilarityFactory.getSimilarity(similarityType);
+        Analyzer analyzer = AnalyzerFactory.getAnalyzer(pair.getLeft());
+        Similarity similarity = SimilarityFactory.getSimilarity(pair.getRight());
 
         Searcher searcher = new Searcher(analyzer, similarity);
-        List<Topic> parsedTopics = searcher.parseTopics(Constants.TOPIC_FILE_PATH);
-        logger.info("Parsed Topics");
-        searcher.readIndex(indexPath);
-        logger.info("Index read");
-        List<Result> results = searcher.searchAll(parsedTopics);
-        logger.info("Results generated");
-        ResultWriter.write(results, resultsPath);
-        logger.info(results.size() + " results written");
+        try {
+            List<Topic> parsedTopics = searcher.parseTopics(Constants.TOPIC_FILE_PATH);
+            logger.info("Parsed Topics");
+            searcher.readIndex(indexPath);
+            logger.info("Index read");
+            List<Result> results = searcher.searchAll(parsedTopics);
+            logger.info("Results generated");
+
+            File dir = new File(resultFolder);
+
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+
+            ResultWriter.write(results, resultFolder + "/" + resultFile);
+            logger.info(results.size() + " results written");
+        } catch (Exception e) {
+            System.out.println("Error occurred while searching!!");
+        }
     }
 }

@@ -9,27 +9,27 @@ import org.apache.lucene.search.similarities.Similarity;
 import org.apache.lucene.search.similarities.SimilarityBase;
 
 public class SimilarityFactory {
-	
+
 	public static Similarity getSimilarity(SimilarityType type) {
-		
-		switch(type) {
+
+		switch (type) {
 			case BM25:
 				return new BM25Similarity();
-				case Boolean:
+			case Boolean:
 				return new BooleanSimilarity();
-				// case Multi:
-				// return new MultiSimilarity();
-				// case PerField:
-				// return new PerFieldSimilarityWrapper();
-				// case Base:
-				// return new SimilarityBase();
-				// case TFIDF:
-				// return new TFIDFSimilarity();
-			
+			// case Multi:
+			// return new MultiSimilarity();
+			// case PerField:
+			// return new PerFieldSimilarityWrapper();
+			// case Base:
+			// return new SimilarityBase();
+			// case TFIDF:
+			// return new TFIDFSimilarity();
+			case Classic:
 			default:
 				return new ClassicSimilarity();
 		}
-		
+
 	}
 
 }

@@ -45,8 +45,8 @@ public class MyAnalyzer extends Analyzer {
 	}
 
 	//https://github.com/kerinb/IR_proj2_group14
-	private List<String> createStopWordList()
-	{
+	// getting stopwords from https://www.ranks.nl/stopwords
+	private List<String> createStopWordList() {
 		ArrayList<String> stopWordList = new ArrayList<>();
 		try {
 			BufferedReader stopwords = new BufferedReader(new FileReader(currentRelativePath + "/Dataset/stopwords.txt"));

@@ -104,8 +104,8 @@ public class Searcher {
     //reference: https://github.com/kerinb/IR_proj2_group14
     private Query generateQueryFromTopic(Topic topic) {
         HashMap<String, Float> boosts = new HashMap<String, Float>();
-        boosts.put("title", 0.1f);
-        boosts.put("content",0.9f);
+        boosts.put("headline", 1.1f);
+        boosts.put("text",9.0f);
 
 		MultiFieldQueryParser multiFieldQP = new MultiFieldQueryParser(new String[] {"headline","text" }, analyzer, boosts);
         
@@ -134,7 +134,7 @@ public class Searcher {
     			booleanQuery.add(new BoostQuery(descriptionQuery, (float) 1.7), BooleanClause.Occur.SHOULD);
 
     			if (narrativeQuery != null) {
-    				booleanQuery.add(new BoostQuery(narrativeQuery, (float) 1.2), BooleanClause.Occur.SHOULD);
+    				booleanQuery.add(new BoostQuery(narrativeQuery, (float) 2), BooleanClause.Occur.SHOULD);
     			}
     			
     			query = booleanQuery.build();
@@ -164,7 +164,7 @@ public class Searcher {
                         "a relevant document identifies|a relevant document could|a relevant document may|a relevant document must|a relevant document will|a document will|to be relevant|relevant documents|a document must|relevant|will contain|will discuss|will provide|must cite",
                         ""));
             } else {
-                irrelevantNarr.append(sentence.replaceAll("are also not relevant|are not relevant|are irrelevant|is not relevant|not|NOT", ""));
+                irrelevantNarr.append(sentence.replaceAll("not relevant|are irrelevant", ""));
             }
             index = bi.current();
         }
@@ -210,7 +210,7 @@ public class Searcher {
                 number = numberMatcher.group().trim();
             }
 
-            descStr = descStr.replace("\n","");
+            descStr = descStr.replace("\n"," ");
             Pattern descPattern = Pattern.compile("Description: (.*)Narrative");
             Matcher descMatcher = descPattern.matcher(descStr);
             String desc = "";
@@ -218,7 +218,7 @@ public class Searcher {
                 desc = descMatcher.group(1).trim();
             }
 
-            String narrative = narrativeStr.replace("\n","").replace("Narrative: ","").trim();
+            String narrative = narrativeStr.replace("\n"," ").replace("Narrative: ","").trim();
 
             Topic topic = new Topic(number, titleStr, desc, narrative);
             topics.add(topic);

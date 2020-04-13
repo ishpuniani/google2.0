@@ -1,5 +1,3 @@
-rm -rf Indexed-Docs # Remove index folder if it exists
-
 mvn clean
 mvn package
 

@@ -113,6 +113,7 @@ public class Searcher {
         try {
         	List<String> splitNarrative = splitNarrIntoRelNotRel(topic.getNarrative());
             String relevantNarr = splitNarrative.get(0).trim();
+            String irrelevantNarr = splitNarrative.get(1).trim();
 
     		BooleanQuery.Builder booleanQuery = new BooleanQuery.Builder();
 
@@ -121,9 +122,13 @@ public class Searcher {
     			Query titleQuery = multiFieldQP.parse(QueryParser.escape(topic.getTitle()));
     			Query descriptionQuery = multiFieldQP.parse(QueryParser.escape(topic.getDesc()));
     			Query narrativeQuery = null;
+    			Query negNarrativeQuery = null;
     			if(relevantNarr.length()>0) {
     				narrativeQuery = multiFieldQP.parse(QueryParser.escape(relevantNarr));
     			}
+                if(irrelevantNarr.length()>0) {
+                    negNarrativeQuery = multiFieldQP.parse(QueryParser.escape(irrelevantNarr));
+                }
 
     			booleanQuery.add(new BoostQuery(titleQuery, (float) 4), BooleanClause.Occur.SHOULD);
     			booleanQuery.add(new BoostQuery(descriptionQuery, (float) 1.7), BooleanClause.Occur.SHOULD);

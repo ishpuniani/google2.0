@@ -60,6 +60,8 @@ public class SearchIndex {
                     validAnalyzer = true;
                     break;
                 default:
+                    analyzerType = AnalyzerType.Custom;
+                    validAnalyzer = true;
                     break;
             }
 
@@ -99,9 +101,13 @@ public class SearchIndex {
                     validSimilarity = true;
                     break;
                 default:
+                    similarityType = SimilarityType.BM25;
+                    validSimilarity = true;
                     break;
             }
         }
+
+        indexPath += (analyzerType + "-" + similarityType);
 
         Analyzer analyzer = AnalyzerFactory.getAnalyzer(analyzerType);
         Similarity similarity = SimilarityFactory.getSimilarity(similarityType);

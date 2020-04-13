@@ -159,7 +159,7 @@ public class Searcher {
                         "a relevant document identifies|a relevant document could|a relevant document may|a relevant document must|a relevant document will|a document will|to be relevant|relevant documents|a document must|relevant|will contain|will discuss|will provide|must cite",
                         ""));
             } else {
-                irrelevantNarr.append(sentence.replaceAll("not relevant|are irrelevant", ""));
+            	irrelevantNarr.append(sentence.replaceAll("are also not relevant|are not relevant|are irrelevant|is not relevant|not|NOT", ""));
             }
             index = bi.current();
         }

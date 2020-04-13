@@ -30,7 +30,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Searcher {
-    private static final int NUM_TOP_HITS = 50;
+    private static final int NUM_TOP_HITS = 1000;
     private static final Logger logger = Logger.getLogger(Searcher.class);
 
     private Analyzer analyzer;

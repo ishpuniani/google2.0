@@ -6,4 +6,5 @@ public class Constants {
   public static final String DATASET_FILE_PATH = "Dataset/";
   public static final String TOPIC_FILE_PATH = "Dataset/topics";
   public static final String INDEXED_DOCS_FILE_PATH = "Indexed-Docs/";
+  public static final String SYNONYM_FILE_PATH = "Dataset/wn_s.pl";
 }

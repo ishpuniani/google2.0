@@ -1,5 +1,6 @@
 package com.mycompany.app.Search;
 
+import com.mycompany.app.MyAnalyzer;
 import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
@@ -104,8 +105,8 @@ public class Searcher {
     //reference: https://github.com/kerinb/IR_proj2_group14
     private Query generateQueryFromTopic(Topic topic) {
         HashMap<String, Float> boosts = new HashMap<String, Float>();
-        boosts.put("headline", 1.1f);
-        boosts.put("text",9.0f);
+        boosts.put("headline", 1.0f);
+        boosts.put("text",12.0f);
 
 		MultiFieldQueryParser multiFieldQP = new MultiFieldQueryParser(new String[] {"headline","text" }, analyzer, boosts);
         
@@ -140,8 +141,9 @@ public class Searcher {
     			query = booleanQuery.build();
     		}
             
-        } catch (ParseException e) {
-            logger.error("Error parsing query.");
+        } catch (Exception e) {
+            logger.error("Error parsing query.", e);
+            System.exit(1);
         }
 
         return query;

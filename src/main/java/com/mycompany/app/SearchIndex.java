@@ -29,7 +29,7 @@ public class SearchIndex {
         AnalyzerType analyzerType = null;
         SimilarityType similarityType = null;
 
-        while (!validAnalyzer && !validSimilarity) {
+        /*while (!validAnalyzer && !validSimilarity) {
             // clear the screen
             System.out.print("\033[H\033[2J");
             System.out.flush();
@@ -72,6 +72,7 @@ public class SearchIndex {
             System.out.println("4. PerFieldSimilarityWrapper");
             System.out.println("5. SimilarityBase");
             System.out.println("6. TFIDFSimilarity");
+            System.out.println("7. LMDirichletSimilarity");
 
             input = System.console().readLine();
 
@@ -100,17 +101,23 @@ public class SearchIndex {
                     similarityType = SimilarityType.TFIDF;
                     validSimilarity = true;
                     break;
+                case "7":
+                    similarityType = SimilarityType.LMDirichlet;
+                    validSimilarity = true;
+                    break;
                 default:
                     similarityType = SimilarityType.BM25;
                     validSimilarity = true;
                     break;
             }
-        }
+        }*/
 
-        indexPath += (analyzerType + "-" + similarityType);
+//        indexPath += (analyzerType + "-" + similarityType);
+        indexPath = Constants.INDEXED_DOCS_FILE_PATH + "PerFieldAnalyzer-BM25";
 
-        Analyzer analyzer = AnalyzerFactory.getAnalyzer(analyzerType);
-        Similarity similarity = SimilarityFactory.getSimilarity(similarityType);
+//        Analyzer analyzer = AnalyzerFactory.getAnalyzer(analyzerType);
+        Analyzer analyzer = new MyAnalyzer(true);
+        Similarity similarity = SimilarityFactory.getSimilarity(SimilarityType.BM25);
 
         Searcher searcher = new Searcher(analyzer, similarity);
         List<Topic> parsedTopics = searcher.parseTopics(Constants.TOPIC_FILE_PATH);

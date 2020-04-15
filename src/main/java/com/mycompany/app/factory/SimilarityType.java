@@ -7,7 +7,8 @@ public enum SimilarityType {
 	Multi("Multi"),
 	PerField("PerField"),
 	Base("Base"),
-	TFIDF("TFIDF");
+	TFIDF("TFIDF"),
+	LMDirichlet("TFIDF");
 
 	private String similarityName;
 	private SimilarityType(String similarityName) {

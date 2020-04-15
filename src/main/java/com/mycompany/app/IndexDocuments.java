@@ -3,6 +3,7 @@ package com.mycompany.app;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.mycompany.app.Constants.Constants;
 import com.mycompany.app.DocumentLoader.fbis.FBISLoader;
@@ -12,16 +13,21 @@ import com.mycompany.app.DocumentLoader.laTimes.LATimesLoader;
 import com.mycompany.app.Index.Indexer;
 import com.mycompany.app.factory.AnalyzerType;
 
+import com.mycompany.app.factory.SimilarityFactory;
 import com.mycompany.app.factory.SimilarityType;
 import org.apache.commons.io.FileUtils;
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.custom.CustomAnalyzer;
+import org.apache.lucene.analysis.miscellaneous.PerFieldAnalyzerWrapper;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.search.similarities.Similarity;
 
 public class IndexDocuments {
 
     private static ArrayList<Document> docs;
     private static Indexer indexer;
 
-    public static void main(String[] args) throws IOException {
+    /*public static void main(String[] args) throws IOException {
 
         boolean validInput = false;
         AnalyzerType analyzerType = null;
@@ -75,6 +81,7 @@ public class IndexDocuments {
             System.out.println("4. PerFieldSimilarityWrapper");
             System.out.println("5. SimilarityBase");
             System.out.println("6. TFIDFSimilarity");
+            System.out.println("7. LMDirichletSimilarity");
 
             input = System.console().readLine();
 
@@ -103,6 +110,10 @@ public class IndexDocuments {
                     similarityType = SimilarityType.TFIDF;
                     validSimilarity = true;
                     break;
+                case "7":
+                    similarityType = SimilarityType.LMDirichlet;
+                    validSimilarity = true;
+                    break;
                 default:
                     similarityType = SimilarityType.BM25;
                     validSimilarity = true;
@@ -123,14 +134,25 @@ public class IndexDocuments {
         } else {
             System.out.println("Index already exists. Force update index!");
         }
+    }*/
+
+    public static void main(String[] args) {
+        String indexPath = Constants.INDEXED_DOCS_FILE_PATH + "PerFieldAnalyzer-BM25";
+
+        PerFieldAnalyzerWrapper perFieldAnalyzerWrapper = new PerFieldAnalyzerWrapper(new MyAnalyzer(), new HashMap<String, Analyzer>(){{
+            put("headline", new  MyAnalyzer(true));
+        }});
+
+        Similarity similarity = SimilarityFactory.getSimilarity(SimilarityType.BM25);
+        loadAndIndexDocs(perFieldAnalyzerWrapper, similarity, indexPath);
     }
 
-    private static void loadAndIndexDocs(AnalyzerType analyzerType, SimilarityType similarityType, String indexPath) {
+    private static void loadAndIndexDocs(Analyzer analyzer, Similarity similarity, String indexPath) {
         try {
             FBISLoader fbisLoader = new FBISLoader();
             docs = fbisLoader.loadFBISDocs(Constants.DATASET_FILE_PATH + "fbis");
             indexer = new Indexer(indexPath);
-            indexer.IndexDocs(docs, analyzerType, similarityType);
+            indexer.IndexDocs(docs, analyzer, similarity);
         } catch (IOException ex) {
             System.out.println("ERROR: IOException occurred while loading FBIS documents");
         }
@@ -139,7 +161,7 @@ public class IndexDocuments {
             FR94Loader fr94Loader = new FR94Loader();
             docs = fr94Loader.loadFR94Docs(Constants.DATASET_FILE_PATH + "fr94");
             indexer = new Indexer(indexPath);
-            indexer.IndexDocs(docs, analyzerType, similarityType);
+            indexer.IndexDocs(docs, analyzer, similarity);
         } catch (IOException ex) {
             System.out.println("ERROR: IOException occurred while loading FR94 documents");
         }
@@ -148,7 +170,7 @@ public class IndexDocuments {
             FTLoader ftLoader = new FTLoader();
             docs = ftLoader.loadFTDocs(Constants.DATASET_FILE_PATH + "ft");
             indexer = new Indexer(indexPath);
-            indexer.IndexDocs(docs, analyzerType, similarityType);
+            indexer.IndexDocs(docs, analyzer, similarity);
         } catch (IOException ex) {
             System.out.println("ERROR: IOException occurred while loading FT documents");
         }
@@ -157,7 +179,7 @@ public class IndexDocuments {
             LATimesLoader laTimesLoader = new LATimesLoader();
             docs = laTimesLoader.loadLaTimesDocs(Constants.DATASET_FILE_PATH + "latimes");
             indexer = new Indexer(indexPath);
-            indexer.IndexDocs(docs, analyzerType, similarityType);
+            indexer.IndexDocs(docs, analyzer, similarity);
         } catch (IOException ex) {
             System.out.println("ERROR: IOException occurred while loading LATimes documents");
         }

@@ -27,14 +27,14 @@ public class Indexer {
         this.indexPath = indexPath;
     }
 
-    public void IndexDocs(ArrayList<Document> docs, AnalyzerType analyzerType, SimilarityType similarityType) {
+    public void IndexDocs(ArrayList<Document> docs, Analyzer analyzer, Similarity similarity) {
         Date start = new Date();
         try {
             System.out.println("Indexing to directory '" + indexPath + "'...");
 
             Directory dir = FSDirectory.open(Paths.get(indexPath));
-            Analyzer analyzer = AnalyzerFactory.getAnalyzer(analyzerType);
-            Similarity similarity = SimilarityFactory.getSimilarity(similarityType);
+//            Analyzer analyzer = AnalyzerFactory.getAnalyzer(analyzerType);
+//            Similarity similarity = SimilarityFactory.getSimilarity(similarityType);
             IndexWriterConfig iwc = new IndexWriterConfig(analyzer);
             iwc.setSimilarity(similarity);
 

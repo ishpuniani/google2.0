@@ -32,7 +32,7 @@ public class IndexDocuments {
 
         String indexPath = Constants.INDEXED_DOCS_FILE_PATH;
 
-        while (!validInput) {
+        while (!validInput && !validSimilarity) {
             // clear the screen
             System.out.print("\033[H\033[2J");
             System.out.flush();
@@ -72,9 +72,7 @@ public class IndexDocuments {
             System.out.println("1. BM25Similarity");
             System.out.println("2. BooleanSimilarity");
             System.out.println("3. MultiSimilarity");
-            System.out.println("4. PerFieldSimilarityWrapper");
-            System.out.println("5. SimilarityBase");
-            System.out.println("6. TFIDFSimilarity");
+            System.out.println("4. LMDirichletSimilarity");
 
             input = System.console().readLine();
 
@@ -92,15 +90,7 @@ public class IndexDocuments {
                     validSimilarity = true;
                     break;
                 case "4":
-                    similarityType = SimilarityType.PerField;
-                    validSimilarity = true;
-                    break;
-                case "5":
-                    similarityType = SimilarityType.Base;
-                    validSimilarity = true;
-                    break;
-                case "6":
-                    similarityType = SimilarityType.TFIDF;
+                    similarityType = SimilarityType.LMDirichlet;
                     validSimilarity = true;
                     break;
                 default:

@@ -69,9 +69,7 @@ public class SearchIndex {
             System.out.println("1. BM25Similarity");
             System.out.println("2. BooleanSimilarity");
             System.out.println("3. MultiSimilarity");
-            System.out.println("4. PerFieldSimilarityWrapper");
-            System.out.println("5. SimilarityBase");
-            System.out.println("6. TFIDFSimilarity");
+            System.out.println("4. LMDirichletSimilarity");
 
             input = System.console().readLine();
 
@@ -89,15 +87,7 @@ public class SearchIndex {
                     validSimilarity = true;
                     break;
                 case "4":
-                    similarityType = SimilarityType.PerField;
-                    validSimilarity = true;
-                    break;
-                case "5":
-                    similarityType = SimilarityType.Base;
-                    validSimilarity = true;
-                    break;
-                case "6":
-                    similarityType = SimilarityType.TFIDF;
+                    similarityType = SimilarityType.LMDirichlet;
                     validSimilarity = true;
                     break;
                 default:

@@ -11,6 +11,7 @@ import com.mycompany.app.DocumentLoader.fr94.FR94Loader;
 import com.mycompany.app.DocumentLoader.ft.FTLoader;
 import com.mycompany.app.DocumentLoader.laTimes.LATimesLoader;
 import com.mycompany.app.Index.Indexer;
+import com.mycompany.app.factory.AnalyzerFactory;
 import com.mycompany.app.factory.AnalyzerType;
 
 import com.mycompany.app.factory.SimilarityFactory;
@@ -137,14 +138,14 @@ public class IndexDocuments {
     }*/
 
     public static void main(String[] args) {
-        String indexPath = Constants.INDEXED_DOCS_FILE_PATH + "PerFieldAnalyzer-BM25";
+        String indexPath = Constants.INDEXED_DOCS_FILE_PATH + "Custom-BM25";
 
-        PerFieldAnalyzerWrapper perFieldAnalyzerWrapper = new PerFieldAnalyzerWrapper(new MyAnalyzer(), new HashMap<String, Analyzer>(){{
+        /*PerFieldAnalyzerWrapper perFieldAnalyzerWrapper = new PerFieldAnalyzerWrapper(new MyAnalyzer(), new HashMap<String, Analyzer>(){{
             put("headline", new  MyAnalyzer(true));
-        }});
-
+        }});*/
+        Analyzer analyzer = AnalyzerFactory.getAnalyzer(AnalyzerType.Custom);
         Similarity similarity = SimilarityFactory.getSimilarity(SimilarityType.BM25);
-        loadAndIndexDocs(perFieldAnalyzerWrapper, similarity, indexPath);
+        loadAndIndexDocs(analyzer, similarity, indexPath);
     }
 
     private static void loadAndIndexDocs(Analyzer analyzer, Similarity similarity, String indexPath) {

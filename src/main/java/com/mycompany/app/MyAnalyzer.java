@@ -21,12 +21,14 @@ import org.apache.lucene.analysis.core.StopFilter;
 import org.apache.lucene.analysis.en.PorterStemFilter;
 import org.apache.lucene.analysis.miscellaneous.TrimFilter;
 import org.apache.lucene.analysis.miscellaneous.WordDelimiterGraphFilter;
+import org.apache.lucene.analysis.snowball.SnowballFilter;
 import org.apache.lucene.analysis.standard.ClassicFilter;
 import org.apache.lucene.analysis.standard.StandardTokenizer;
 import org.apache.lucene.analysis.synonym.SynonymGraphFilter;
 import org.apache.lucene.analysis.synonym.SynonymMap;
 import org.apache.lucene.util.CharsRef;
 import org.apache.lucene.wordnet.SynonymTokenFilter;
+import org.tartarus.snowball.ext.EnglishStemmer;
 
 public class MyAnalyzer extends Analyzer {
 
@@ -46,7 +48,7 @@ public class MyAnalyzer extends Analyzer {
 			File mapFile = new File(Constants.SYNONYM_FILE_PATH);
 			try {
 				wnSynonymMap = new org.apache.lucene.wordnet.SynonymMap(new FileInputStream(mapFile));
-				synonymMap = createCountrySynonymMap();
+//				synonymMap = createCountrySynonymMap();
 				mapFound = true;
 			} catch (IOException e) {
 				logger.error(e);
@@ -97,9 +99,9 @@ public class MyAnalyzer extends Analyzer {
 					WordDelimiterGraphFilter.GENERATE_WORD_PARTS | WordDelimiterGraphFilter.GENERATE_NUMBER_PARTS |
 					WordDelimiterGraphFilter.PRESERVE_ORIGINAL , null));
 
+//			tokenStream = new SynonymGraphFilter(tokenStream, synonymMap, true);
+//			tokenStream = new FlattenGraphFilter(tokenStream);
 			tokenStream = new SynonymTokenFilter(tokenStream, wnSynonymMap, 3);
-			tokenStream = new SynonymGraphFilter(tokenStream, synonymMap, true);
-			tokenStream = new FlattenGraphFilter(tokenStream);
 
 			// after replacing with wordnet synonyms
 			tokenStream = new FlattenGraphFilter(new WordDelimiterGraphFilter(tokenStream, WordDelimiterGraphFilter.SPLIT_ON_NUMERICS |
@@ -111,7 +113,8 @@ public class MyAnalyzer extends Analyzer {
 		tokenStream = new StopFilter(tokenStream, StopFilter.makeStopSet(createStopWordList(),true));
 
 		//Apply Stemming
-		tokenStream = new PorterStemFilter(tokenStream);
+//		tokenStream = new PorterStemFilter(tokenStream);
+		tokenStream = new SnowballFilter(tokenStream, new EnglishStemmer());
 
 		return new TokenStreamComponents(tokenizer, tokenStream);
 	}

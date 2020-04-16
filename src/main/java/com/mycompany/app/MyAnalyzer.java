@@ -13,8 +13,10 @@ import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.core.StopFilter;
 import org.apache.lucene.analysis.en.PorterStemFilter;
 import org.apache.lucene.analysis.miscellaneous.TrimFilter;
+import org.apache.lucene.analysis.snowball.SnowballFilter;
 import org.apache.lucene.analysis.standard.ClassicFilter;
 import org.apache.lucene.analysis.standard.StandardTokenizer;
+import org.tartarus.snowball.ext.EnglishStemmer;
 
 public class MyAnalyzer extends Analyzer {
 
@@ -39,7 +41,8 @@ public class MyAnalyzer extends Analyzer {
 		tokenStream = new StopFilter(tokenStream, StopFilter.makeStopSet(createStopWordList(),true));
 
 		//Apply Stemming
-		tokenStream = new PorterStemFilter(tokenStream);
+//		tokenStream = new PorterStemFilter(tokenStream);
+		tokenStream = new SnowballFilter(tokenStream, new EnglishStemmer());
 
 		return new TokenStreamComponents(tokenizer, tokenStream);
 	}

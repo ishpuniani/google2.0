@@ -1,3 +1,5 @@
+rm -rf Indexed-Docs
+
 mvn clean
 mvn package
 

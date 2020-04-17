@@ -138,12 +138,13 @@ public class IndexDocuments {
     }*/
 
     public static void main(String[] args) {
-        String indexPath = Constants.INDEXED_DOCS_FILE_PATH + "Custom-BM25";
+        String indexPath = Constants.INDEXED_DOCS_FILE_PATH + "CustomExpHeadline-BM25";
 
-        /*PerFieldAnalyzerWrapper perFieldAnalyzerWrapper = new PerFieldAnalyzerWrapper(new MyAnalyzer(), new HashMap<String, Analyzer>(){{
+        PerFieldAnalyzerWrapper analyzer = new PerFieldAnalyzerWrapper(new MyAnalyzer(), new HashMap<String, Analyzer>(){{
             put("headline", new  MyAnalyzer(true));
-        }});*/
-        Analyzer analyzer = AnalyzerFactory.getAnalyzer(AnalyzerType.Custom);
+        }});
+//        Analyzer analyzer = AnalyzerFactory.getAnalyzer(AnalyzerType.Custom);
+//        Analyzer analyzer = new MyAnalyzer(true);
         Similarity similarity = SimilarityFactory.getSimilarity(SimilarityType.BM25);
         loadAndIndexDocs(analyzer, similarity, indexPath);
     }

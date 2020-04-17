@@ -115,8 +115,8 @@ public class SearchIndex {
 //        indexPath += (analyzerType + "-" + similarityType);
         indexPath = Constants.INDEXED_DOCS_FILE_PATH + "Custom-BM25";
 
-//        Analyzer analyzer = AnalyzerFactory.getAnalyzer(AnalyzerType.Custom);
-        Analyzer analyzer = new MyAnalyzer(true);
+        Analyzer analyzer = AnalyzerFactory.getAnalyzer(AnalyzerType.Custom);
+//        Analyzer analyzer = new MyAnalyzer(true);
         Similarity similarity = SimilarityFactory.getSimilarity(SimilarityType.BM25);
 
         Searcher searcher = new Searcher(analyzer, similarity);
